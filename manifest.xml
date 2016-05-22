@@ -1,20 +1,18 @@
 <!-- This is a generated file. It is highly recommended that you DO NOT edit 
-	this file. -->
-<iq:manifest xmlns:iq="http://www.garmin.com/xml/connectiq"
-	version="1">
-	<iq:application entry="DigitalWatchApp" id="DB8F0FCBF99744C7847080C901937D60"
-		launcherIcon="@Drawables.LauncherIcon" name="@Strings.AppName" type="watchface">
+	this file. --><iq:manifest xmlns:iq="http://www.garmin.com/xml/connectiq" version="1">
+	<iq:application entry="DigitalWatchApp" id="DB8F0FCBF99744C7847080C901937D60" launcherIcon="@Drawables.LauncherIcon" name="@Strings.AppName" type="watchface">
 
 		<iq:products>
-			<iq:product id="fenix3" />
-			<iq:product id="fenix3_hr" />
-		</iq:products>
+            <iq:product id="round_watch"/>
+            <iq:product id="fenix3"/>
+            <iq:product id="fenix3_hr"/>
+        </iq:products>
 
-		<iq:permissions>
-		</iq:permissions>
+		<iq:permissions/>
 
 		<iq:languages>
 			<iq:language>eng</iq:language>
+			<iq:language>spa</iq:language>
 		</iq:languages>
 
 	</iq:application>
