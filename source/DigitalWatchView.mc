@@ -19,7 +19,7 @@ class DigitalWatchView extends Ui.WatchFace {
         WatchFace.initialize();
     }
 
-    //! Load your resources here
+    // Load your resources here
     function onLayout(dc) {
     	font = Ui.loadResource(Rez.Fonts.id_font_digital);
     	font2 = Ui.loadResource(Rez.Fonts.id_font_digital_sec);
@@ -94,11 +94,12 @@ class DigitalWatchView extends Ui.WatchFace {
     
     function drawDate(dc, dayStr, monthStr, dayWeekStr){
         //Draw Date
+        
         dc.setColor(Gfx.COLOR_BLACK, Gfx.COLOR_TRANSPARENT);
         dc.drawText(dc.getWidth()-30, 4*(dc.getHeight()/6)+6, font3, dayStr, Gfx.TEXT_JUSTIFY_RIGHT);
         dc.drawText(dc.getWidth()-62, 4*(dc.getHeight()/6)+8, Gfx.FONT_SMALL, "-", Gfx.TEXT_JUSTIFY_RIGHT);
         dc.drawText(dc.getWidth()-70, 4*(dc.getHeight()/6)+6, font3, monthStr, Gfx.TEXT_JUSTIFY_RIGHT);
-        dc.drawText(50, 4*(dc.getHeight()/6)+6, font3, dayWeekStr.toLower(), Gfx.TEXT_JUSTIFY_LEFT);
+        dc.drawText((dc.getWidth()-80)/2, 4*(dc.getHeight()/6)+6, font3, dayWeekStr.toLower(), Gfx.TEXT_JUSTIFY_CENTER);
     }
     
     function drawTime(dc, hour, minute){

@@ -1,20 +1,20 @@
-using Toybox.Application as App;
+using Toybox.Application;
 
-class DigitalWatchApp extends App.AppBase {
+class DigitalWatchApp extends Application.AppBase {
 
     function initialize() {
         AppBase.initialize();
     }
 
-    //! onStart() is called on application start up
-    function onStart() {
+    // onStart() is called on application start up
+    function onStart(state) {
     }
 
-    //! onStop() is called when your application is exiting
-    function onStop() {
+    // onStop() is called when your application is exiting
+    function onStop(state) {
     }
 
-    //! Return the initial view of your application here
+    // Return the initial view of your application here
     function getInitialView() {
         return [ new DigitalWatchView() ];
     }
