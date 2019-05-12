@@ -19,7 +19,7 @@ class DigitalWatchView extends WatchUi.WatchFace {
     function initialize() {   
         WatchFace.initialize();
         var height = System.getDeviceSettings().screenHeight;
-        bluetoothUi = new BluetoothUi(65,(height/6)+7,9);
+        bluetoothUi = new BluetoothUi(65,(height/6)+6,10);
         batteryUi = new BatteryUi(27,(height/6)+8,27,17);
         dateTimeBuilder = new DateTimeBuilder();
     }
@@ -55,7 +55,16 @@ class DigitalWatchView extends WatchUi.WatchFace {
         batteryUi.draw(dc);
         
         bluetoothUi.draw(dc);
-
+        
+        //drawTopGuiLine(dc);
+        
+    }
+    
+    function drawTopGuiLine(dc){
+    	//Guide Lines
+		dc.setColor(Gfx.COLOR_LT_GRAY, Gfx.COLOR_TRANSPARENT);
+		dc.drawLine(0  , (dc.getHeight()/6) + 5  , dc.getWidth()    , (dc.getHeight()/6) + 5 );
+		dc.drawLine(0  , (dc.getHeight()/6) + 27  , dc.getWidth()    , (dc.getHeight()/6) + 27 );
     }
     
     function drawYear(dc,yearStr){
