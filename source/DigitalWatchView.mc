@@ -1,12 +1,9 @@
-using Toybox.WatchUi as Ui;
+using Toybox.WatchUi;
 using Toybox.Graphics as Gfx;
-using Toybox.System as Sys;
-using Toybox.Lang as Lang;
-using Toybox.Time as Time;
 using Toybox.Time.Gregorian as Calendar;
 
 
-class DigitalWatchView extends Ui.WatchFace {
+class DigitalWatchView extends WatchUi.WatchFace {
 	
 	var font;
 	var font2;
@@ -14,26 +11,25 @@ class DigitalWatchView extends Ui.WatchFace {
 	var font4;
 	var font5;
 	var sleepMode = true;
-	var bluetoothIcon;
-	
-	enum {
-		NotInitialized,
-		NotConnected,
-		Connected
-	}
+	var bluetoothUi;
+	var batteryUi;
+	var dateTimeBuilder;
+
 
     function initialize() {   
         WatchFace.initialize();
+        bluetoothUi = new BluetoothUi();
+        batteryUi = new BatteryUi();
+        dateTimeBuilder = new DateTimeBuilder();
     }
 
     // Load your resources here
     function onLayout(dc) {
-    	font = Ui.loadResource(Rez.Fonts.id_font_digital);
-    	font2 = Ui.loadResource(Rez.Fonts.id_font_digital_sec);
-    	font3 = Ui.loadResource(Rez.Fonts.id_font_digital_date);
-    	font4 = Ui.loadResource(Rez.Fonts.id_font_cas10);
-    	font5 = Ui.loadResource(Rez.Fonts.id_font_cas10_2);
-    	bluetoothIcon = Ui.loadResource(Rez.Drawables.bluetooth_icon);
+    	font = WatchUi.loadResource(Rez.Fonts.id_font_digital);
+    	font2 = WatchUi.loadResource(Rez.Fonts.id_font_digital_sec);
+    	font3 = WatchUi.loadResource(Rez.Fonts.id_font_digital_date);
+    	font4 = WatchUi.loadResource(Rez.Fonts.id_font_cas10);
+    	font5 = WatchUi.loadResource(Rez.Fonts.id_font_cas10_2);
         setLayout(Rez.Layouts.WatchFace(dc));
     }
 
@@ -47,125 +43,18 @@ class DigitalWatchView extends Ui.WatchFace {
     function onUpdate(dc) {
     	drawBackground(dc);
     
-        // Get and show the current time
-        var clockTime = Sys.getClockTime();
-        var hourString = Lang.format("$1$", [clockTime.hour]);
-        var minString = Lang.format("$1$", [ clockTime.min.format("%02d")]);
-        var secString = Lang.format("$1$", [clockTime.sec.format("%02d")]);
-        
-        var now = Time.now();
-        var info = Calendar.info(now, Time.FORMAT_SHORT);
+        var dateTime = dateTimeBuilder.build();
 
-        var monthStr = Lang.format("$1$", [info.month.format("%02d")]);
-        var yearStr = Lang.format("$1$", [info.year.format("%04d")]);
-        var dayStr = Lang.format("$1$", [info.day.format("%02d")]);
-        var dayWeekStr = Calendar.info(now, Time.FORMAT_MEDIUM).day_of_week;
-        	
-        var battery = Sys.getSystemStats().battery;
+		drawTime(dc, dateTime.getHour(), dateTime.getMinutes(), dateTime.getSeconds());
+        
+        drawDate(dc, dateTime.getDay(), dateTime.getMonth(), dateTime.getDayOfWeek());
+        
+        drawYear(dc, dateTime.getYear());
+        
+        batteryUi.draw(27,(dc.getHeight()/6)+8,27,17,dc);
+        
+        bluetoothUi.draw(70, (dc.getHeight()/6)+7, dc);
 
-		drawTime(dc, hourString, minString);
-        
-        drawDate(dc, dayStr, monthStr, dayWeekStr);
-        
-        drawYear(dc, yearStr);
-        
-        drawBattery(27,(dc.getHeight()/6)+8,27,17,dc,battery);
-        
-        var state = bluetoothState();
-        
-        drawBluetooth(70, (dc.getHeight()/6)+7, state, dc);
-
-    }
-    
-    function bluetoothState(){
-    	var settings = Sys.getDeviceSettings();
-        var state = null;
-		if (settings has : connectionInfo)
-		{
-			// Check the connection state v3.0.0
-			var bluetoothState = settings.connectionInfo[:bluetooth].state ;
-
-			if(bluetoothState == Sys.CONNECTION_STATE_CONNECTED){
-    			state = Connected;
-    		}else if(bluetoothState == Sys.CONNECTION_STATE_NOT_CONNECTED){
-    			state = NotConnected;
-    		}else{
-    			state = NotInitialized;
-    		}
-        	
-        }else {
-        	if(settings.phoneConnected){
-        		state = Connected;
-        	}else{
-        		state = NotConnected;
-        	}
-        }
-        return state;
-    }
-    
-    function drawBluetooth(x,y,state,dc){
-    	
-    	if(state == NotInitialized) {
-    		return;
-    	}
-    	
-    	var color;
-    	if(state == Connected){
-    		color = Gfx.COLOR_DK_BLUE;
-    	}else{
-    		color = Gfx.COLOR_LT_GRAY;
-    	}
-    	
-    	
-		var width = 7;
-		var height = 9;
-		dc.setColor(color, Gfx.COLOR_TRANSPARENT);
-		dc.fillEllipse(x + width, y + height, width, height);
-	
-		dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
-		
-		var x0 = x + width; // Middle Point     
-		var x1 = x0 + 5;    // Max Right
-		var x2 = x0 - 6;    // Max Left
-		
-		var y0 = y+2;              // Max Up
-		var y1 = y + (2*height)-1; // Max Botton
-		var y2 = y0 + 5;           // 
-		var y3 = y1 - 5;
-		
-		
-		dc.drawLine(x0, y0, x0, y1); //Middle Line
-		dc.drawLine(x0, y0, x1, y2); // Small Top
-		dc.drawLine(x0, y1, x1, y3); // Small Bottom
-		
-		dc.drawLine(x1, y2, x2, y3); // Big Top-Bottom
-		dc.drawLine(x1, y3, x2, y2); // Big Bottom-Top
-		
-		//Guide Lines
-//			dc.setColor(Gfx.COLOR_LT_GRAY, Gfx.COLOR_TRANSPARENT);
-//			dc.drawLine(0  , y               , dc.getWidth()    , y );
-//			dc.drawLine(0  , y + 2*height    , dc.getWidth()    , y + 2*height  );
-
-    }
-    
-    function drawBattery(x,y,width,height,dc,battery){
-    	var split = 2;
-    	var block = 3;
-    	var size = 6;
-    	var lowBattery = 25;
-    	var fullBattery = 100;
-    	
-    	dc.setColor(Gfx.COLOR_BLACK, Gfx.COLOR_TRANSPARENT);
-    	dc.drawRectangle(x, y, width, height);
-    	dc.fillRectangle(x+split+((size)*(block+1)), y+(2*split), 3, height-(4*split));
-    	if(battery>lowBattery){
-    		dc.setColor(Gfx.COLOR_BLUE, Gfx.COLOR_TRANSPARENT);
-    	}else{
-    		dc.setColor(Gfx.COLOR_DK_RED, Gfx.COLOR_TRANSPARENT);
-    	}
-    	for (var i = 0; i < (size*(battery/fullBattery)); i += 1){
-    		dc.fillRectangle(x+split+(i*(block+1)), y+split, block, height-(2*split));
-    	}
     }
     
     function drawYear(dc,yearStr){
@@ -183,7 +72,7 @@ class DigitalWatchView extends Ui.WatchFace {
         dc.drawText((dc.getWidth()-80)/2, 4*(dc.getHeight()/6)+6, font3, dayWeekStr.toLower(), Gfx.TEXT_JUSTIFY_CENTER);
     }
     
-    function drawTime(dc, hour, minute){
+    function drawTime(dc, hour, minute,sec){
     	// Draw Time
         dc.setColor(Gfx.COLOR_BLACK, Gfx.COLOR_TRANSPARENT);
         dc.drawText(dc.getWidth()-50, (dc.getHeight()/3)-5, font, minute, Gfx.TEXT_JUSTIFY_RIGHT);
@@ -196,8 +85,7 @@ class DigitalWatchView extends Ui.WatchFace {
         	dc.setColor(Gfx.COLOR_LT_GRAY, Gfx.COLOR_TRANSPARENT);
         	secString = "88";
         }else{
-        	var clockTime = Sys.getClockTime();
-        	secString = Lang.format("$1$", [clockTime.sec.format("%02d")]);
+        	secString = sec;
         	dc.setColor(Gfx.COLOR_BLACK, Gfx.COLOR_TRANSPARENT);
         }	
         dc.drawText(dc.getWidth()-5, (dc.getHeight()/2)-20, font2, secString, Gfx.TEXT_JUSTIFY_RIGHT);
@@ -207,14 +95,11 @@ class DigitalWatchView extends Ui.WatchFace {
         
 	    var width, height;
         var screenWidth = dc.getWidth();
-        var clockTime = Sys.getClockTime();
-        var hour;
-        var min;
+
 
         width = dc.getWidth();	
         height = dc.getHeight();
 
-        var now = Time.now();
 
         // Clear the screen
         dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_BLACK);
