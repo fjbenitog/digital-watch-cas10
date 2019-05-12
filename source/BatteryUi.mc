@@ -3,7 +3,19 @@ using Toybox.Graphics as Gfx;
 
 class BatteryUi {
 
-    function draw(x,y,width,height,dc){
+	private var x;
+	private var y;
+	private var width;
+	private var height;
+
+	function initialize(x_, y_, width_, height_){
+		me.x = x_;
+		me.y = y_;
+		me.width = width_;
+		me.height = height_;
+	}
+
+    function draw(dc){
         var battery = Sys.getSystemStats().battery;
     	var split = 2;
     	var block = 3;

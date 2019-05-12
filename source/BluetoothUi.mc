@@ -3,13 +3,22 @@ using Toybox.Graphics as Gfx;
 
 class BluetoothUi {
 
+	private var x;
+	private var y;
+	private var size;
+	function initialize(x_,y_,size_){
+		x = x_;
+		y = y_;
+		size = size_;
+	}
+
 	enum {
 		NotInitialized,
 		NotConnected,
 		Connected
 	}
 
-	function draw(x,y,dc){
+	function draw(dc){
     	var state = bluetoothState();
     	if(state == NotInitialized) {
     		return;
@@ -17,25 +26,19 @@ class BluetoothUi {
     	
     	var color;
     	if(state == Connected){
-    		color = Gfx.COLOR_DK_BLUE;
+    		color = Gfx.COLOR_BLACK;
     	}else{
     		color = Gfx.COLOR_LT_GRAY;
     	}
-    	
-    	
-		var width = 7;
-		var height = 9;
+
 		dc.setColor(color, Gfx.COLOR_TRANSPARENT);
-		dc.fillEllipse(x + width, y + height, width, height);
-	
-		dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
 		
-		var x0 = x + width; // Middle Point     
+		var x0 = x + size; // Middle Point     
 		var x1 = x0 + 5;    // Max Right
 		var x2 = x0 - 6;    // Max Left
 		
 		var y0 = y+2;              // Max Up
-		var y1 = y + (2*height)-1; // Max Botton
+		var y1 = y + (2*size)-1; // Max Botton
 		var y2 = y0 + 5;           // 
 		var y3 = y1 - 5;
 		

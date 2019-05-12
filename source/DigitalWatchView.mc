@@ -18,8 +18,9 @@ class DigitalWatchView extends WatchUi.WatchFace {
 
     function initialize() {   
         WatchFace.initialize();
-        bluetoothUi = new BluetoothUi();
-        batteryUi = new BatteryUi();
+        var height = System.getDeviceSettings().screenHeight;
+        bluetoothUi = new BluetoothUi(65,(height/6)+7,9);
+        batteryUi = new BatteryUi(27,(height/6)+8,27,17);
         dateTimeBuilder = new DateTimeBuilder();
     }
 
@@ -51,9 +52,9 @@ class DigitalWatchView extends WatchUi.WatchFace {
         
         drawYear(dc, dateTime.getYear());
         
-        batteryUi.draw(27,(dc.getHeight()/6)+8,27,17,dc);
+        batteryUi.draw(dc);
         
-        bluetoothUi.draw(70, (dc.getHeight()/6)+7, dc);
+        bluetoothUi.draw(dc);
 
     }
     
