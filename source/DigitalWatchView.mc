@@ -14,6 +14,7 @@ class DigitalWatchView extends Ui.WatchFace {
 	var font4;
 	var font5;
 	var sleepMode = true;
+	var bluetoothIcon;
 
     function initialize() {   
         WatchFace.initialize();
@@ -26,6 +27,7 @@ class DigitalWatchView extends Ui.WatchFace {
     	font3 = Ui.loadResource(Rez.Fonts.id_font_digital_date);
     	font4 = Ui.loadResource(Rez.Fonts.id_font_cas10);
     	font5 = Ui.loadResource(Rez.Fonts.id_font_cas10_2);
+    	bluetoothIcon = Ui.loadResource(Rez.Drawables.bluetooth_icon);
         setLayout(Rez.Layouts.WatchFace(dc));
     }
 
@@ -61,28 +63,66 @@ class DigitalWatchView extends Ui.WatchFace {
         
         drawYear(dc, yearStr);
         
-        drawBattery(dc,battery);
+        drawBattery(27,(dc.getHeight()/6)+8,27,17,dc,battery);
+        
+        var settings = Sys.getDeviceSettings();
+        var color = Gfx.COLOR_WHITE;
+		if (settings has : connectionInfo)
+		{
+			// Check the connection state v3.0.0
+			var bluetoothState = settings.connectionInfo[:bluetooth].state ;
+
+			if(bluetoothState == Sys.CONNECTION_STATE_CONNECTED){
+    			color = Gfx.COLOR_DK_BLUE;
+    		}else if(bluetoothState == Sys.CONNECTION_STATE_NOT_CONNECTED){
+    			color = Gfx.COLOR_LT_GRAY;
+    		}else{
+    			color = Gfx.COLOR_WHITE;
+    		}
+        	
+        }else if(settings.phoneConnected){
+        	color = Gfx.COLOR_DK_BLUE;
+        }
+        
+        drawBluetooth(80, (dc.getHeight()/6)+8, color, dc);
 
     }
     
-    function drawBattery(dc,battery){
-    	var x = 27;
-    	var y = (dc.getHeight()/6)+8;
-    	var width = 27;
-    	var height = 17;
+    function drawBluetooth(x,y,color,dc){
+    	
+    		var width = 6;
+    		var height = 8;
+    		dc.setColor(color, Gfx.COLOR_TRANSPARENT);
+    		dc.fillEllipse(x + width, y + height, width, height);
+    	
+    		dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
+    		
+    		var x0 = x + width;
+    		var y0 = y+2;
+    		dc.drawLine(x0  , y0  , x0, y0 + (2*height)-3);
+    		dc.drawLine(x0+1, y0  , x0 + 4, y0+3);
+    		dc.drawLine(x0+3, y0+3, x0-4,y0+10);
+    		dc.drawLine(x0+1, y0 + 2*(height -2), x0 + 4,y0 + (2*height)-7);
+			dc.drawLine(x0+3, y0 + (2*height)-7, x0-4, y0 + (2*height)-14);
+
+    }
+    
+    function drawBattery(x,y,width,height,dc,battery){
     	var split = 2;
     	var block = 3;
     	var size = 6;
+    	var lowBattery = 25;
+    	var fullBattery = 100;
     	
     	dc.setColor(Gfx.COLOR_BLACK, Gfx.COLOR_TRANSPARENT);
     	dc.drawRectangle(x, y, width, height);
     	dc.fillRectangle(x+split+((size)*(block+1)), y+(2*split), 3, height-(4*split));
-    	if(battery>25){
+    	if(battery>lowBattery){
     		dc.setColor(Gfx.COLOR_BLUE, Gfx.COLOR_TRANSPARENT);
     	}else{
     		dc.setColor(Gfx.COLOR_DK_RED, Gfx.COLOR_TRANSPARENT);
     	}
-    	for (var i = 0; i < (size*(battery/100)); i += 1){
+    	for (var i = 0; i < (size*(battery/fullBattery)); i += 1){
     		dc.fillRectangle(x+split+(i*(block+1)), y+split, block, height-(2*split));
     	}
     }

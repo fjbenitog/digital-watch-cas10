@@ -10,4 +10,5 @@
 		<font id="id_font_cas10_2" filename="fonts/cas10_2.fnt"
 			filter="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ " />
 	</fonts>
+	<bitmap id="bluetooth_icon" filename="images/bluetooth-icon.png" />
 </resources>

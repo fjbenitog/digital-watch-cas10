@@ -1,6 +1,6 @@
-using Toybox.Application;
+using Toybox.Application as App;
 
-class DigitalWatchApp extends Application.AppBase {
+class DigitalWatchApp extends App.AppBase {
 
     function initialize() {
         AppBase.initialize();
@@ -17,6 +17,6 @@ class DigitalWatchApp extends Application.AppBase {
     // Return the initial view of your application here
     function getInitialView() {
         return [ new DigitalWatchView() ];
-    }
+    } 
 
 }
