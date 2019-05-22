@@ -10,4 +10,17 @@
 		<font id="id_font_cas10_2" filename="fonts/cas10_2.fnt"
 			filter="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ " />
 	</fonts>
+	<bitmaps>
+		<bitmap id="bluetooth_icon_black" filename="images/bluetooth-icon.png" >
+			<palette disableTransparency="false">
+            	<color>000000</color>
+        	</palette>
+		</bitmap>
+		<bitmap id="bluetooth_icon_grey" filename="images/bluetooth-icon.png" >
+			<palette disableTransparency="false">
+            	<color>AAAAAA</color>
+        	</palette>
+		</bitmap>
+	</bitmaps>
+	
 </resources>

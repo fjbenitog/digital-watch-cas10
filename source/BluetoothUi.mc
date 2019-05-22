@@ -5,11 +5,13 @@ class BluetoothUi {
 
 	private var x;
 	private var y;
-	private var size;
-	function initialize(x_,y_,size_){
+	private var bluetoothIconBlack;
+	private var bluetoothIconGrey;
+	function initialize(x_,y_,bluetoothIconBlack_,bluetoothIconGrey_){
 		x = x_;
 		y = y_;
-		size = size_;
+		bluetoothIconBlack = bluetoothIconBlack_;
+		bluetoothIconGrey = bluetoothIconGrey_;
 	}
 
 	enum {
@@ -20,7 +22,6 @@ class BluetoothUi {
 
 	function draw(dc){
 		internalDraw(x,dc);
-		internalDraw(x+1,dc);
 	}
 
 	private function internalDraw(x,dc){
@@ -29,34 +30,7 @@ class BluetoothUi {
     		return;
     	}
     	
-    	var color;
-    	if(state == Connected){
-    		color = Gfx.COLOR_BLACK;
-    	}else{
-    		color = Gfx.COLOR_LT_GRAY;
-    	}
-
-		dc.setColor(color, Gfx.COLOR_TRANSPARENT);
-		
-		var x0 = x + size; // Middle Point     
-		var x1 = x0 + 5;    // Max Right
-		var x2 = x0 - 7;    // Max Left
-		
-		var y0 = y+2;              // Max Up
-		var y1 = y + (2*size)-1;   // Max Botton
-		var y2 = y0 + 5;           // Middle Up
-		var y3 = y1 - 5;		   // Middle Down
-		
-		
-		dc.drawLine(x0, y0, x0, y1); //Middle Line
-		
-		dc.drawLine(x0, y0, x1, y2); // Small Top
-		dc.drawLine(x0, y1, x1, y3); // Small Bottom
-		
-		dc.drawLine(x1, y2, x2, y3); // Big Top-Bottom
-		dc.drawLine(x1, y3, x2, y2); // Big Bottom-Top
-		
-		
+    	dc.drawBitmap(x, y, state == Connected ? bluetoothIconBlack : bluetoothIconGrey);
 
     }
     

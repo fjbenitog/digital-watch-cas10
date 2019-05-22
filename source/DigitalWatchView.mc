@@ -14,13 +14,12 @@ class DigitalWatchView extends WatchUi.WatchFace {
 	var bluetoothUi;
 	var batteryUi;
 	var dateTimeBuilder;
+	var bluetoothIconBlack;
+	var bluetoothIconGrey;
 
 
     function initialize() {   
         WatchFace.initialize();
-        var height = System.getDeviceSettings().screenHeight;
-        bluetoothUi = new BluetoothUi(65,(height/6)+6,10);
-        batteryUi = new BatteryUi(27,(height/6)+8,27,17);
         dateTimeBuilder = new DateTimeBuilder();
     }
 
@@ -31,7 +30,11 @@ class DigitalWatchView extends WatchUi.WatchFace {
     	font3 = WatchUi.loadResource(Rez.Fonts.id_font_digital_date);
     	font4 = WatchUi.loadResource(Rez.Fonts.id_font_cas10);
     	font5 = WatchUi.loadResource(Rez.Fonts.id_font_cas10_2);
-        setLayout(Rez.Layouts.WatchFace(dc));
+    	bluetoothIconBlack = WatchUi.loadResource(Rez.Drawables.bluetooth_icon_black);
+    	bluetoothIconGrey = WatchUi.loadResource(Rez.Drawables.bluetooth_icon_grey);
+    	bluetoothUi = new BluetoothUi(65,(dc.getHeight()/6)+8,bluetoothIconBlack,bluetoothIconGrey);
+    	batteryUi = new BatteryUi(27,(dc.getHeight()/6)+8,27,17);
+//        setLayout(Rez.Layouts.WatchFace(dc));
     }
 
     //! Called when this View is brought to the foreground. Restore
@@ -56,7 +59,7 @@ class DigitalWatchView extends WatchUi.WatchFace {
         
         bluetoothUi.draw(dc);
         
-        //drawTopGuiLine(dc);
+//        drawTopGuiLine(dc);
         
     }
     
