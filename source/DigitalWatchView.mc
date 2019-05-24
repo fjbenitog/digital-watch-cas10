@@ -14,14 +14,12 @@ class DigitalWatchView extends WatchUi.WatchFace {
 	var bluetoothUi;
 	var alarmUi;
 	var batteryUi;
-	var dateTimeBuilder;
 	var bluetoothIconBlack;
 	var bluetoothIconGrey;
 
 
     function initialize() {   
         WatchFace.initialize();
-        dateTimeBuilder = new DateTimeBuilder();
     }
 
     // Load your resources here
@@ -34,7 +32,7 @@ class DigitalWatchView extends WatchUi.WatchFace {
     	bluetoothIconBlack = WatchUi.loadResource(Rez.Drawables.bluetooth_icon_black);
     	bluetoothIconGrey = WatchUi.loadResource(Rez.Drawables.bluetooth_icon_grey);
     	bluetoothUi = new BluetoothUi(65,(dc.getHeight()/6)+8,bluetoothIconBlack,bluetoothIconGrey);
-    	alarmUi = new AlarmUi(dc.getWidth()-36, (dc.getHeight()/2)-29,10);
+    	alarmUi = new AlarmUi(dc.getWidth()-36, (dc.getHeight()/2)-26,10);
     	batteryUi = new BatteryUi(27,(dc.getHeight()/6)+8,27,17);
 //        setLayout(Rez.Layouts.WatchFace(dc));
     }
@@ -49,9 +47,9 @@ class DigitalWatchView extends WatchUi.WatchFace {
     function onUpdate(dc) {
     	drawBackground(dc);
     
-        var dateTime = dateTimeBuilder.build();
+        var dateTime = DateTimeBuilder.build();
 
-		drawTime(dc, dateTime.getHour(), dateTime.getMinutes(), dateTime.getSeconds());
+		drawTime(dc, dateTime.getHour(), dateTime.getMinutes(), dateTime.getSeconds(), dateTime.getMeridiam());
         
         drawDate(dc, dateTime.getDay(), dateTime.getMonth(), dateTime.getDayOfWeek());
         
@@ -89,9 +87,13 @@ class DigitalWatchView extends WatchUi.WatchFace {
         dc.drawText((dc.getWidth()-80)/2, 4*(dc.getHeight()/6)+6, font3, dayWeekStr.toLower(), Gfx.TEXT_JUSTIFY_CENTER);
     }
     
-    function drawTime(dc, hour, minute,sec){
+    function drawTime(dc, hour, minute,sec,meridiam){
     	// Draw Time
-        dc.setColor(Gfx.COLOR_BLACK, Gfx.COLOR_TRANSPARENT);
+    	dc.setColor(Gfx.COLOR_BLACK, Gfx.COLOR_TRANSPARENT);
+		if(meridiam != ""){
+			dc.drawText(30, dc.getHeight()-2*(dc.getHeight()/3)-8, font5, meridiam, Gfx.TEXT_JUSTIFY_LEFT);
+		}
+
         dc.drawText(dc.getWidth()-50, (dc.getHeight()/3)-5, font, minute, Gfx.TEXT_JUSTIFY_RIGHT);
         dc.drawText(dc.getWidth()-105, (dc.getHeight()/3)-5, font, ":", Gfx.TEXT_JUSTIFY_RIGHT);
         dc.drawText(dc.getWidth()-127, (dc.getHeight()/3)-5, font, hour, Gfx.TEXT_JUSTIFY_RIGHT);
