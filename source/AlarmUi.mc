@@ -5,13 +5,13 @@ class AlarmUi {
 
 	private var x;
 	private var y;
-	private var alarmIconBlack;
-	private var alarmIconGrey;
-	function initialize(x_,y_,alarmIconBlack_,alarmIconGrey_){
+	private var witdh;
+	private var height;
+	function initialize(x_,y_,height_){
 		x = x_;
 		y = y_;
-		alarmIconBlack = alarmIconBlack_;
-		alarmIconGrey = alarmIconGrey_;
+		witdh = 30;
+		height = height_;
 	}
 
 
@@ -20,8 +20,20 @@ class AlarmUi {
 	}
 
 	private function internalDraw(x,dc){
- 
-    	dc.drawBitmap(x, y, alarmState() ? alarmIconBlack : alarmIconGrey);
+	 	var color = alarmState() ? Gfx.COLOR_BLACK : Gfx.COLOR_LT_GRAY;
+		dc.setColor(color, Gfx.COLOR_TRANSPARENT);
+		dc.fillRectangle(x, y, witdh, height);
+ 		dc.setPenWidth(2);
+
+ 		dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
+    	dc.drawArc(x, y + height/2 , 8, Gfx.ARC_COUNTER_CLOCKWISE, -55, 55);
+		dc.drawArc(x, y + height/2 , 13, Gfx.ARC_COUNTER_CLOCKWISE, -35, 35);
+		dc.drawArc(x, y + height/2 , 18, Gfx.ARC_COUNTER_CLOCKWISE, -20, 20);
+		dc.drawArc(x, y + height/2 , 22, Gfx.ARC_COUNTER_CLOCKWISE, -15, 15);
+		dc.setPenWidth(6);
+		dc.drawArc(x, y + height/2 , 27, Gfx.ARC_COUNTER_CLOCKWISE, -15, 15);
+
+    	dc.setPenWidth(1);
 
     }
     
