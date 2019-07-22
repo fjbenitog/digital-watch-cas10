@@ -21,18 +21,13 @@ class BluetoothUi {
 	}
 
 	function draw(dc){
-		internalDraw(x,dc);
-	}
-
-	private function internalDraw(x,dc){
-    	var state = bluetoothState();
+		var state = bluetoothState();
     	if(state == NotInitialized) {
     		return;
     	}
     	
     	dc.drawBitmap(x, y, state == Connected ? bluetoothIconBlack : bluetoothIconGrey);
-
-    }
+	}
     
     private function bluetoothState(){
     	var settings = Sys.getDeviceSettings();

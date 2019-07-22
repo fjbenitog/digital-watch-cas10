@@ -14,8 +14,7 @@ class DigitalWatchView extends WatchUi.WatchFace {
 	var bluetoothUi;
 	var alarmUi;
 	var batteryUi;
-	var bluetoothIconBlack;
-	var bluetoothIconGrey;
+	var notificationUi;
 
 
     function initialize() {   
@@ -29,11 +28,12 @@ class DigitalWatchView extends WatchUi.WatchFace {
     	font3 = WatchUi.loadResource(Rez.Fonts.id_font_digital_date);
     	font4 = WatchUi.loadResource(Rez.Fonts.id_font_cas10);
     	font5 = WatchUi.loadResource(Rez.Fonts.id_font_cas10_2);
-    	bluetoothIconBlack = WatchUi.loadResource(Rez.Drawables.bluetooth_icon_black);
-    	bluetoothIconGrey = WatchUi.loadResource(Rez.Drawables.bluetooth_icon_grey);
+    	var bluetoothIconBlack = WatchUi.loadResource(Rez.Drawables.bluetooth_icon_black);
+    	var bluetoothIconGrey = WatchUi.loadResource(Rez.Drawables.bluetooth_icon_grey);
     	bluetoothUi = new BluetoothUi(65,(dc.getHeight()/6)+8,bluetoothIconBlack,bluetoothIconGrey);
     	alarmUi = new AlarmUi(dc.getWidth()-36, (dc.getHeight()/2)-26,10);
     	batteryUi = new BatteryUi(27,(dc.getHeight()/6)+8,27,17);
+    	notificationUi = new NotificationUi(90,(dc.getHeight()/6)+10);
 //        setLayout(Rez.Layouts.WatchFace(dc));
     }
 
@@ -60,6 +60,8 @@ class DigitalWatchView extends WatchUi.WatchFace {
         bluetoothUi.draw(dc);
         
         alarmUi.draw(dc);
+        
+        notificationUi.draw(dc);
         
 //        drawTopGuiLine(dc);
         
