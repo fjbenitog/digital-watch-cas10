@@ -28,13 +28,18 @@ class DigitalWatchView extends WatchUi.WatchFace {
     	font3 = WatchUi.loadResource(Rez.Fonts.id_font_digital_date);
     	font4 = WatchUi.loadResource(Rez.Fonts.id_font_cas10);
     	font5 = WatchUi.loadResource(Rez.Fonts.id_font_cas10_2);
+    	
     	var bluetoothIconBlack = WatchUi.loadResource(Rez.Drawables.bluetooth_icon_black);
     	var bluetoothIconGrey = WatchUi.loadResource(Rez.Drawables.bluetooth_icon_grey);
     	bluetoothUi = new BluetoothUi(65,(dc.getHeight()/6)+8,bluetoothIconBlack,bluetoothIconGrey);
+    	
     	alarmUi = new AlarmUi(dc.getWidth()-36, (dc.getHeight()/2)-26,10);
+    	
     	batteryUi = new BatteryUi(27,(dc.getHeight()/6)+8,27,17);
-    	notificationUi = new NotificationUi(90,(dc.getHeight()/6)+10);
-//        setLayout(Rez.Layouts.WatchFace(dc));
+    	
+    	var notificationIconBlack = WatchUi.loadResource(Rez.Drawables.notification_icon_black);
+    	var notificationIconGrey = WatchUi.loadResource(Rez.Drawables.notification_icon_grey);
+    	notificationUi = new NotificationUi(90,(dc.getHeight()/6)+9,notificationIconBlack,notificationIconGrey);
     }
 
     //! Called when this View is brought to the foreground. Restore

@@ -21,6 +21,16 @@
             	<color>AAAAAA</color>
         	</palette>
 		</bitmap>
+		<bitmap id="notification_icon_black" filename="images/notification-icon.png" >
+			<palette disableTransparency="false">
+            	<color>000000</color>
+        	</palette>
+		</bitmap>
+		<bitmap id="notification_icon_grey" filename="images/notification-icon.png" >
+			<palette disableTransparency="false">
+            	<color>AAAAAA</color>
+        	</palette>
+		</bitmap>
 	</bitmaps>
 	
 </resources>
