@@ -1,6 +1,7 @@
 using Toybox.WatchUi;
 using Toybox.Graphics as Gfx;
 using Toybox.Time.Gregorian as Calendar;
+using Toybox.System;
 
 
 class DigitalWatchView extends WatchUi.WatchFace {
@@ -86,12 +87,41 @@ class DigitalWatchView extends WatchUi.WatchFace {
     
     function drawDate(dc, dayStr, monthStr, dayWeekStr){
         //Draw Date
-        
         dc.setColor(Gfx.COLOR_BLACK, Gfx.COLOR_TRANSPARENT);
         dc.drawText(dc.getWidth()-30, 4*(dc.getHeight()/6)+6, font3, dayStr, Gfx.TEXT_JUSTIFY_RIGHT);
         dc.drawText(dc.getWidth()-62, 4*(dc.getHeight()/6)+8, Gfx.FONT_SMALL, "-", Gfx.TEXT_JUSTIFY_RIGHT);
         dc.drawText(dc.getWidth()-70, 4*(dc.getHeight()/6)+6, font3, monthStr, Gfx.TEXT_JUSTIFY_RIGHT);
         dc.drawText((dc.getWidth()-80)/2, 4*(dc.getHeight()/6)+6, font3, dayWeekStr.toLower(), Gfx.TEXT_JUSTIFY_CENTER);
+    }
+    
+    function onPartialUpdate(dc){
+
+		var x = dc.getWidth()-40;
+		var y = (dc.getHeight()/2)-12;
+		var width = 36;
+		var height = 46;
+    	dc.setClip(x, y, width, height);
+    	
+    	dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_BLACK);
+        dc.fillRectangle(x, y, width, height);
+    	dc.setColor(Gfx.COLOR_BLACK, Gfx.COLOR_TRANSPARENT);
+    	
+    	var dateTime = DateTimeBuilder.build();
+    	drawSeconds(dc,dateTime.getSeconds(),false);
+    	
+    	dc.clearClip();
+    }
+    
+    function drawSeconds(dc,sec,mode){
+        var secString = "";
+        if(mode == true){
+        	dc.setColor(Gfx.COLOR_LT_GRAY, Gfx.COLOR_TRANSPARENT);
+        	secString = "88";
+        }else{
+        	secString = sec;
+        	dc.setColor(Gfx.COLOR_BLACK, Gfx.COLOR_TRANSPARENT);
+        }	
+        dc.drawText(dc.getWidth()-5, (dc.getHeight()/2)-20, font2, secString, Gfx.TEXT_JUSTIFY_RIGHT);
     }
     
     function drawTime(dc, hour, minute,sec,meridiam){
@@ -106,15 +136,7 @@ class DigitalWatchView extends WatchUi.WatchFace {
         dc.drawText(dc.getWidth()-127, (dc.getHeight()/3)-5, font, hour, Gfx.TEXT_JUSTIFY_RIGHT);
 
         // Draw Seconds
-        var secString = "";
-        if(sleepMode == true){
-        	dc.setColor(Gfx.COLOR_LT_GRAY, Gfx.COLOR_TRANSPARENT);
-        	secString = "88";
-        }else{
-        	secString = sec;
-        	dc.setColor(Gfx.COLOR_BLACK, Gfx.COLOR_TRANSPARENT);
-        }	
-        dc.drawText(dc.getWidth()-5, (dc.getHeight()/2)-20, font2, secString, Gfx.TEXT_JUSTIFY_RIGHT);
+        drawSeconds(dc,sec,sleepMode);
     }
     
     function drawBackground(dc){
