@@ -1,0 +1,5 @@
+<layout id="WatchFace">
+	<drawable id="MainBack" class="MainBackSmall"/>
+	<drawable id="TopContent" class="TopContentSmall"/>
+	<drawable id="DateDrawable" class="DateDrawableSmall"/>
+</layout>
