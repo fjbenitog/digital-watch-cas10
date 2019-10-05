@@ -40,13 +40,8 @@ class DigitalWatchView extends WatchUi.WatchFace {
     	View.onUpdate(dc);
     
         var dateTime = DateTimeBuilder.build();
-//
 		drawTime(dc, dateTime.getHour(), dateTime.getMinutes(), dateTime.getSeconds(), dateTime.getMeridiam());
-//        
-//        drawDate(dc, dateTime.getDay(), dateTime.getMonth(), dateTime.getDayOfWeek());
-//        
-//        drawYear(dc, dateTime.getYear());
-        
+		
         alarmUi.draw(dc);
         
     }
@@ -58,19 +53,6 @@ class DigitalWatchView extends WatchUi.WatchFace {
 		dc.drawLine(0  , (dc.getHeight()/6) + 27  , dc.getWidth()    , (dc.getHeight()/6) + 27 );
     }
     
-    function drawYear(dc,yearStr){
-    	dc.setColor(Gfx.COLOR_BLACK, Gfx.COLOR_TRANSPARENT);
-        dc.drawText(dc.getWidth()-40, (dc.getHeight()/6), font3, yearStr, Gfx.TEXT_JUSTIFY_RIGHT);
-    }
-    
-    function drawDate(dc, dayStr, monthStr, dayWeekStr){
-        //Draw Date
-        dc.setColor(Gfx.COLOR_BLACK, Gfx.COLOR_TRANSPARENT);
-        dc.drawText(dc.getWidth()-30, 4*(dc.getHeight()/6)+6, font3, dayStr, Gfx.TEXT_JUSTIFY_RIGHT);
-        dc.drawText(dc.getWidth()-62, 4*(dc.getHeight()/6)+8, Gfx.FONT_SMALL, "-", Gfx.TEXT_JUSTIFY_RIGHT);
-        dc.drawText(dc.getWidth()-70, 4*(dc.getHeight()/6)+6, font3, monthStr, Gfx.TEXT_JUSTIFY_RIGHT);
-        dc.drawText((dc.getWidth()-80)/2, 4*(dc.getHeight()/6)+6, font3, dayWeekStr.toLower(), Gfx.TEXT_JUSTIFY_CENTER);
-    }
     
     function onPartialUpdate(dc){
 		sleepMode = true;
