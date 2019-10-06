@@ -37,12 +37,12 @@ class DateDrawable extends WatchUi.Drawable {
         drawYear(dc, dateTime.getYear());
 	}
 	
-	 function drawYear(dc,yearStr){
+	private function drawYear(dc,yearStr){
     	dc.setColor(Gfx.COLOR_BLACK, Gfx.COLOR_TRANSPARENT);
         dc.drawText(yearX, yearY, font3, yearStr, Gfx.TEXT_JUSTIFY_RIGHT);
     }
     
-    function drawDate(dc, dayStr, monthStr, dayWeekStr){
+    private function drawDate(dc, dayStr, monthStr, dayWeekStr){
         //Draw Date
         dc.setColor(Gfx.COLOR_BLACK, Gfx.COLOR_TRANSPARENT);
         dc.drawText(dateX, dateY, font3, dayStr, Gfx.TEXT_JUSTIFY_RIGHT);

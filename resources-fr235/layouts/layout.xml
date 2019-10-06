@@ -16,4 +16,8 @@
 		<param name="yearY">0</param>
 		<param name="dateY">116</param>
 	</drawable>
+	<drawable id="TimeDrawable" class="TimeDrawable">
+		<param name="paddingY">-16</param>
+		<param name="meridiamY">-22</param>
+	</drawable>
 </layout>

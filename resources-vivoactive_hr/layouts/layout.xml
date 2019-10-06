@@ -16,5 +16,6 @@
 		<param name="yearY">10</param>
 		<param name="dateY">160</param>
 		<param name="dateX">145</param>
-	</drawable>DateDrawableRectangle"/>
+	</drawable>
+	<drawable id="TimeDrawable" class="TimeDrawableVivoHR"/>
 </layout>
